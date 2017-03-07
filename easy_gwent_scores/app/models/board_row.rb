@@ -1,6 +1,6 @@
 class BoardRow < ApplicationRecord
   belongs_to :board_side
-  has_and_belongs_to_many :played_cards, :join_table => "board_rows_cards"
+  has_and_belongs_to_many :played_cards, :join_table => "card_plays"
 
   validates :combat_type,
     presence: true,

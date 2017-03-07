@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  board_side: one
+  board_row: one
+  card: one
+
+two:
+  board_side: two
+  board_row: two
+  card: two

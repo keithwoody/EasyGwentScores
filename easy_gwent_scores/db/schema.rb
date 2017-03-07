@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307231309) do
+ActiveRecord::Schema.define(version: 20170307234128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,17 @@ ActiveRecord::Schema.define(version: 20170307231309) do
     t.integer  "score",      default: 0
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "card_plays", id: false, force: :cascade do |t|
+    t.integer  "board_side_id"
+    t.integer  "board_row_id"
+    t.integer  "card_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["board_row_id"], name: "index_card_plays_on_board_row_id", using: :btree
+    t.index ["board_side_id"], name: "index_card_plays_on_board_side_id", using: :btree
+    t.index ["card_id"], name: "index_card_plays_on_card_id", using: :btree
   end
 
   create_table "cards", force: :cascade do |t|
@@ -55,5 +66,8 @@ ActiveRecord::Schema.define(version: 20170307231309) do
     t.datetime "updated_at",  null: false
   end
 
+  add_foreign_key "card_plays", "board_rows"
+  add_foreign_key "card_plays", "board_sides"
+  add_foreign_key "card_plays", "cards"
   add_foreign_key "cards", "factions"
 end
