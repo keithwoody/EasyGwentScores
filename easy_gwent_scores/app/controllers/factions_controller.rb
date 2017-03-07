@@ -1,0 +1,2 @@
+class FactionsController < ApplicationController
+end
