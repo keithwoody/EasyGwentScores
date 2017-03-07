@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307012618) do
+ActiveRecord::Schema.define(version: 20170307015806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cards", force: :cascade do |t|
+    t.integer  "faction_id"
+    t.string   "name"
+    t.integer  "num_related"
+    t.string   "card_type"
+    t.string   "combat_row"
+    t.integer  "strength"
+    t.string   "special_ability"
+    t.string   "description"
+    t.string   "source"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["faction_id"], name: "index_cards_on_faction_id", using: :btree
+  end
 
   create_table "factions", force: :cascade do |t|
     t.string   "name"
@@ -23,4 +38,5 @@ ActiveRecord::Schema.define(version: 20170307012618) do
     t.datetime "updated_at",  null: false
   end
 
+  add_foreign_key "cards", "factions"
 end

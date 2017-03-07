@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  faction: one
+  name: MyString
+  num_related: 1
+  card_type: MyString
+  combat_row: MyString
+  strength: 1
+  special_ability: MyString
+  description: MyString
+  source: MyString
+
+two:
+  faction: two
+  name: MyString
+  num_related: 1
+  card_type: MyString
+  combat_row: MyString
+  strength: 1
+  special_ability: MyString
+  description: MyString
+  source: MyString
