@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307224936) do
+ActiveRecord::Schema.define(version: 20170307231309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "board_rows", force: :cascade do |t|
+    t.integer  "board_side_id"
+    t.string   "combat_type"
+    t.boolean  "commanders_horn_active", default: false
+    t.boolean  "weather_active",         default: false
+    t.integer  "score",                  default: 0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["board_side_id"], name: "index_board_rows_on_board_side_id", using: :btree
+  end
 
   create_table "board_sides", force: :cascade do |t|
     t.integer  "score",      default: 0

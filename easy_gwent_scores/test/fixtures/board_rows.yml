@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  combat_type: MyString
+  commanders_horn_active: false
+  weather_active: false
+
+two:
+  combat_type: MyString
+  commanders_horn_active: false
+  weather_active: false
