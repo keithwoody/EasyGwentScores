@@ -2,7 +2,11 @@ class Card < ApplicationRecord
   belongs_to :faction
 
   def hero?
-    card_type.eql?('hero')
+    card_type.eql?('Hero')
+  end
+
+  def weather?
+    card_type.eql?('Weather')
   end
 
   def row_score(row)
