@@ -4,6 +4,11 @@ class BoardRow < ApplicationRecord
 
   validates :combat_type,
     presence: true,
-    uniqueness: true,
+    uniqueness: {scope: :board_side_id},
     inclusion: {in: %w[Melee Ranged Siege]}
+
+  scope :melee, ->{ where(combat_type: 'Melee') }
+  scope :ranged, ->{ where(combat_type: 'Ranged') }
+  scope :siege, ->{ where(combat_type: 'Siege') }
+
 end
