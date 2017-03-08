@@ -1,4 +1,6 @@
 class BoardSide < ApplicationRecord
+  belongs_to :round
+
   has_and_belongs_to_many :hand_cards, class_name: 'Card'
   has_and_belongs_to_many :game_deck_cards, class_name: 'Card'
   has_and_belongs_to_many :discarded_cards, class_name: 'Card'
@@ -16,11 +18,11 @@ class BoardSide < ApplicationRecord
   end
 
   def ranged_row
-    board_rows.melee.first
+    board_rows.ranged.first
   end
 
   def siege_row
-    board_rows.melee.first
+    board_rows.siege.first
   end
 
 end
