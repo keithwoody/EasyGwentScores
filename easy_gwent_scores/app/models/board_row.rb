@@ -12,8 +12,8 @@ class BoardRow < ApplicationRecord
   scope :ranged, ->{ where(combat_type: 'Ranged') }
   scope :siege, ->{ where(combat_type: 'Siege') }
 
-  def recalculate_score(obj)
-    new_total = cards(true).sum(:strength)
+  def recalculate_score(card_play)
+    new_total = cards(true).map{|c| c.row_score(self)}.sum
     update(score: new_total)
   end
 
