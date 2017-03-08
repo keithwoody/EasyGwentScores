@@ -1,6 +1,7 @@
 class BoardRow < ApplicationRecord
   belongs_to :board_side
-  has_and_belongs_to_many :played_cards, :join_table => "card_plays"
+  has_many :card_plays, after_add: :recalculate_score
+  has_many :cards, through: :card_plays
 
   validates :combat_type,
     presence: true,
@@ -10,5 +11,10 @@ class BoardRow < ApplicationRecord
   scope :melee, ->{ where(combat_type: 'Melee') }
   scope :ranged, ->{ where(combat_type: 'Ranged') }
   scope :siege, ->{ where(combat_type: 'Siege') }
+
+  def recalculate_score(obj)
+    new_total = cards(true).sum(:strength)
+    update(score: new_total)
+  end
 
 end
