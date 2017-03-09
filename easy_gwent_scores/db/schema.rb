@@ -69,9 +69,9 @@ ActiveRecord::Schema.define(version: 20170308221030) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.integer  "number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "number",     default: 1
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_foreign_key "board_sides", "rounds"
