@@ -16,8 +16,16 @@ class BoardRow < ApplicationRecord
     if card_play.card.commanders_horn?
       self.commanders_horn_active = true
     end
-    self.score = cards(true).map{|c| c.row_score(self)}.sum
+    self.score = row_scores.sum
     save!
+  end
+
+  def row_scores
+    cards.reload.map{ |c| c.row_score(self) }
+  end
+
+  def explain_row_scores
+    cards.reload.map{ |c| [c.card_type, c.strength, c.row_score(self)] }
   end
 
 end
