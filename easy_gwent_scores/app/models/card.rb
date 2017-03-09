@@ -1,6 +1,18 @@
 class Card < ApplicationRecord
   belongs_to :faction
 
+  # type scopes
+  scope :leader, -> { where(card_type: 'Leader') }
+  scope :hero, -> { where(card_type: 'Hero') }
+  scope :special, -> { where(card_type: 'Special') }
+  scope :weather, -> { where(card_type: 'Weather') }
+  scope :unit, -> { where(card_type: 'Unit') }
+  # row scopes
+  scope :global, -> { where(combat_row: 'n/a') }
+  scope :melee, -> { where('combat_row LIKE ?', '%Close%') }
+  scope :ranged, -> { where('combat_row LIKE ?', '%Ranged%') }
+  scope :siege, -> { where('combat_row LIKE ?', '%Siege%') }
+
   def commanders_horn?
     if name+special_ability =~ /Horn/
       true
