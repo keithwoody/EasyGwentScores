@@ -1,18 +1,17 @@
 class BoardSide < ApplicationRecord
   belongs_to :round
 
-  has_and_belongs_to_many :hand_cards, class_name: 'Card'
-  has_and_belongs_to_many :game_deck_cards, class_name: 'Card'
-  has_and_belongs_to_many :discarded_cards, class_name: 'Card'
-
-  has_many :board_rows
+  has_many :board_rows, dependent: :destroy
   after_create do
     board_rows.melee.create!
     board_rows.ranged.create!
     board_rows.siege.create!
   end
 
-  has_many :global_card_plays, ->{ where(board_row_id: nil) }, class_name: 'CardPlay',  after_add: :apply_weather
+  has_many :global_card_plays, ->{ where(board_row_id: nil) },
+    class_name: 'CardPlay',
+    after_add: :apply_weather,
+    dependent: :delete_all
 
   def apply_weather(card_play)
     if card_play.card.weather?

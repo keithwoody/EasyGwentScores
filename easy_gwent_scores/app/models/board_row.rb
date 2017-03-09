@@ -1,6 +1,6 @@
 class BoardRow < ApplicationRecord
   belongs_to :board_side
-  has_many :card_plays, after_add: :recalculate_score
+  has_many :card_plays, after_add: :recalculate_score, dependent: :nullify
   has_many :cards, through: :card_plays
 
   validates :combat_type,

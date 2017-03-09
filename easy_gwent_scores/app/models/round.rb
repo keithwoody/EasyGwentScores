@@ -1,9 +1,9 @@
 class Round < ApplicationRecord
-  has_many :board_sides
+  has_many :board_sides, dependent: :destroy
 
   after_create do
-    board_sides.create!
-    board_sides.create!
+    board_sides.create! #one
+    board_sides.create! #two
   end
 
   def side_one
