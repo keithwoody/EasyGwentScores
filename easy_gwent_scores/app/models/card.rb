@@ -16,6 +16,7 @@ class Card < ApplicationRecord
   scope :morale, -> { where(special_ability: 'Morale boost') }
   scope :tight_bond, -> { where(special_ability: 'Tight Bond') }
   scope :bound_to, -> (c) { where('id != ?', c.id).where('name like ?', c.name.remove(/ \d\/\d/)+'%') }
+  scope :spy, -> {where(special_ability: 'Spy')}
 
   def commanders_horn?
     if name+special_ability =~ /Horn/
@@ -23,6 +24,18 @@ class Card < ApplicationRecord
     else
       false
     end
+  end
+
+  def melee?
+    combat_row.eql?('Close combat')
+  end
+
+  def ranged?
+    combat_row.eql?('Ranged combat')
+  end
+
+  def siege?
+    combat_row.eql?('Siege')
   end
 
   def hero?
@@ -35,6 +48,10 @@ class Card < ApplicationRecord
 
   def weather?
     card_type.eql?('Weather')
+  end
+
+  def spy?
+    special_ability.eql?('Spy')
   end
 
   def row_score(row)
