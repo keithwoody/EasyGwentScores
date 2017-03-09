@@ -49,4 +49,7 @@ class BoardSide < ApplicationRecord
     board_rows.siege.first
   end
 
+  def update_score
+    update(score: board_rows.sum(:score))
+  end
 end

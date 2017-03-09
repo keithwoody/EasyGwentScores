@@ -12,6 +12,12 @@ class BoardRow < ApplicationRecord
   scope :ranged, ->{ where(combat_type: 'Ranged') }
   scope :siege, ->{ where(combat_type: 'Siege') }
 
+  after_update do
+    if score_changed?
+      board_side.update_score
+    end
+  end
+
   def recalculate_score(card_play)
     if card_play.card.commanders_horn?
       self.commanders_horn_active = true
