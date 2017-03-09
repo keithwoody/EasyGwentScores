@@ -1,6 +1,14 @@
 class Card < ApplicationRecord
   belongs_to :faction
 
+  def commanders_horn?
+    if name+special_ability =~ /Horn/
+      true
+    else
+      false
+    end
+  end
+
   def hero?
     card_type.eql?('Hero')
   end
@@ -14,7 +22,7 @@ class Card < ApplicationRecord
     unless hero?
       #  Weather on? => reduce all units to 1
       if row.weather_active?
-        val = 1
+        val = 1 if val > 1
       end
       # todo: Apply scoring rules
       #  Special ability:

@@ -13,8 +13,11 @@ class BoardRow < ApplicationRecord
   scope :siege, ->{ where(combat_type: 'Siege') }
 
   def recalculate_score(card_play)
-    new_total = cards(true).map{|c| c.row_score(self)}.sum
-    update(score: new_total)
+    if card_play.card.commanders_horn?
+      self.commanders_horn_active = true
+    end
+    self.score = cards(true).map{|c| c.row_score(self)}.sum
+    save!
   end
 
 end
