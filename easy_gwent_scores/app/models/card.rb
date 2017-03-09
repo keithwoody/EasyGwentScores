@@ -14,6 +14,8 @@ class Card < ApplicationRecord
   scope :siege, -> { where('combat_row LIKE ?', '%Siege%') }
   # ability
   scope :morale, -> { where(special_ability: 'Morale boost') }
+  scope :tight_bond, -> { where(special_ability: 'Tight Bond') }
+  scope :bound_to, -> (c) { where('id != ?', c.id).where('name like ?', c.name.remove(/ \d\/\d/)+'%') }
 
   def commanders_horn?
     if name+special_ability =~ /Horn/
@@ -48,6 +50,10 @@ class Card < ApplicationRecord
       morale_boosts = row.cards.morale.where('id != ?', self.id).count
       val += morale_boosts
       #    Tight Bond => x2 related cards
+      bond_count = row.cards.tight_bond.bound_to(self).count
+      if bond_count > 0
+        val *= bond_count * 2
+      end
       #    Berserker => x2 on transform, +1 to related units (Young Berserker)
       # Commanders horn? => x2 all units in row
       if row.commanders_horn_active?

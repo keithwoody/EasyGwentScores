@@ -25,7 +25,7 @@ class BoardRow < ApplicationRecord
   end
 
   def explain_row_scores
-    cards.reload.map{ |c| [c.card_type, c.strength, c.row_score(self)] }
+    cards.reload.map{ |c| [c.name, c.card_type, c.strength, c.row_score(self)] }
   end
 
 end
