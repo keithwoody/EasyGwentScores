@@ -1,5 +1,6 @@
 class Card < ApplicationRecord
   belongs_to :faction, inverse_of: :cards
+  has_many :card_plays, dependent: :delete_all, inverse_of: :card
   validates :name,
     presence: true,
     uniqueness: true
