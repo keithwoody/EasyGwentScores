@@ -2,11 +2,10 @@ require 'open-uri'
 namespace :import do
   desc "Retrieve faction cards from wiki"
   task cards: :environment do
-    puts "#{Faction.count} factions"
     Faction.all.each do |faction|
-      puts "#{faction.name}"
+      print "#{faction.name} "
       if faction.cards.empty?
-        puts " Importing cards..."
+        print "...importing cards "
         columns = Card.content_columns.map(&:name).slice(0,8)
         doc = Nokogiri::HTML(open( WIKI_BASE+faction.wiki_path ))
         doc.css('div#mw-content-text table tr')[1..-1].map do |row|
@@ -35,10 +34,10 @@ namespace :import do
             faction.cards.create( card )
           end
         end
-        puts " ...total cards #{faction.cards.count}"
       else
-        puts " ...already imported"
+        print "...cards already imported "
       end
+      print "...total cards #{faction.cards.count}\n"
     end
   end
 
