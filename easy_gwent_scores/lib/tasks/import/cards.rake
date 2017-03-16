@@ -1,6 +1,5 @@
 require 'open-uri'
 namespace :import do
-  WIKI_BASE = 'http://witcher.wikia.com'
   desc "Retrieve faction cards from wiki"
   task cards: :environment do
     puts "#{Faction.count} factions"

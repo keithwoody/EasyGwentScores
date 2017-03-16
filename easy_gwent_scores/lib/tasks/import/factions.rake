@@ -1,6 +1,5 @@
 require 'open-uri'
 namespace :import do
-  WIKI_BASE = 'http://witcher.wikia.com'
   desc "Retrieve factions from wiki"
   task factions: :environment do
     Faction.create(name: 'Neutral',
