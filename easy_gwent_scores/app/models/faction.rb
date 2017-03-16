@@ -1,6 +1,9 @@
 require 'open-uri'
 class Faction < ApplicationRecord
   WIKI_BASE = 'http://witcher.wikia.com'
+  validates :name,
+    presence: true,
+    uniqueness: true
 
   has_many :cards, inverse_of: :faction do
     def import_from_wiki
