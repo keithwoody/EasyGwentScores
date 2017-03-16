@@ -50,6 +50,14 @@ class Card < ApplicationRecord
     card_type.eql?('Weather')
   end
 
+  def special?
+    card_type.eql?('Special')
+  end
+
+  def whole_board?
+    true if name =~ /Clear|Scorch/
+  end
+
   def spy?
     special_ability.eql?('Spy')
   end

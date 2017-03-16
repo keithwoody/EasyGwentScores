@@ -14,13 +14,15 @@ class BoardSide < ApplicationRecord
   has_many :card_plays
   has_many :global_card_plays, ->{ where(board_row_id: nil) },
     class_name: 'CardPlay',
-    after_add: :apply_weather,
+    after_add: :apply_global_effects,
     dependent: :delete_all
 
-  def apply_weather(card_play)
+  def apply_global_effects(card_play)
     if card_play.card.weather?
       round.side_one.apply_row_weather( card_play.card )
       round.side_two.apply_row_weather( card_play.card )
+    elsif card_play.card.scorch?
+      raise "TODO: discard from each side card(s) with highest row_score"
     end
   end
 
@@ -55,13 +57,32 @@ class BoardSide < ApplicationRecord
     end
   end
 
-  def play( card )
-    row = row_for( card )
-    # Unit/Hero
-    card_plays.create(card: card, board_row: row)
-    # Special
-    # Weather
-    # Leader
+  def play( card, row: nil, replace: nil )
+    if card.special?
+      if card.whole_board?
+        # affects both sides: clear weather, scorch
+        global_card_plays.create(card: card)
+      else
+        if card.commanders_horn?
+          # specify row: horn
+          raise "Choose a row to apply #{card.name}" unless row
+          card_plays.create(card: card, board_row: row)
+        else
+          # specify card: decoy
+          raise "Choose a card to replace with #{card.name}" unless replace
+          card_plays.where(card: replace, board_row_id: board_row_ids).update(card: card)
+          #game.hand << replace
+        end
+      end
+    elsif card.weather?
+      global_card_plays.create(card: card)
+    elsif card.leader?
+      card_plays.create(card: card)
+    else
+      # Unit/Hero
+      row = row_for( card )
+      card_plays.create(card: card, board_row: row)
+    end
 
   end
 
