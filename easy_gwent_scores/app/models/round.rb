@@ -12,6 +12,6 @@ class Round < ApplicationRecord
   end
 
   def side_two
-    board_sides.last
+    board_sides.second
   end
 end
