@@ -3,6 +3,6 @@ class Faction < ApplicationRecord
     presence: true,
     uniqueness: true
 
-  has_many :cards, inverse_of: :faction
+  has_many :cards, dependent: :destroy, inverse_of: :faction
 
 end
