@@ -1,7 +1,10 @@
 class BoardSide < ApplicationRecord
-  belongs_to :round
+  belongs_to :round, inverse_of: :board_sides
 
   has_many :board_rows, dependent: :destroy
+  has_one :melee_row, ->{ melee }, class_name: 'BoardRow', inverse_of: :board_side
+  has_one :ranged_row, ->{ ranged }, class_name: 'BoardRow', inverse_of: :board_side
+  has_one :siege_row, ->{ siege }, class_name: 'BoardRow', inverse_of: :board_side
   after_create do
     board_rows.melee.create!
     board_rows.ranged.create!
@@ -35,18 +38,6 @@ class BoardSide < ApplicationRecord
     elsif name =~ /Clear/
       board_rows.update(weather_active: false)
     end
-  end
-
-  def melee_row
-    board_rows.melee.first
-  end
-
-  def ranged_row
-    board_rows.ranged.first
-  end
-
-  def siege_row
-    board_rows.siege.first
   end
 
   def other_side

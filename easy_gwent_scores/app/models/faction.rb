@@ -2,7 +2,7 @@ require 'open-uri'
 class Faction < ApplicationRecord
   WIKI_BASE = 'http://witcher.wikia.com'
 
-  has_many :cards do
+  has_many :cards, inverse_of: :faction do
     def import_from_wiki
       faction = proxy_association.owner
       columns = Card.content_columns.map(&:name).slice(0,8)

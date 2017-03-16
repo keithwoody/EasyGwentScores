@@ -1,6 +1,6 @@
 class BoardRow < ApplicationRecord
-  belongs_to :board_side
-  has_many :card_plays, dependent: :nullify
+  belongs_to :board_side, inverse_of: :board_rows
+  has_many :card_plays, dependent: :nullify, inverse_of: :board_row
   has_many :cards, through: :card_plays
 
   validates :combat_type,

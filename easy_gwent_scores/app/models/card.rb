@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-  belongs_to :faction
+  belongs_to :faction, inverse_of: :cards
 
   # type scopes
   scope :leader, -> { where(card_type: 'Leader') }
