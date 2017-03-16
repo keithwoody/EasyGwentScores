@@ -1,5 +1,8 @@
 class Card < ApplicationRecord
   belongs_to :faction, inverse_of: :cards
+  validates :name,
+    presence: true,
+    uniqueness: true
 
   # type scopes
   scope :leader, -> { where(card_type: 'Leader') }
