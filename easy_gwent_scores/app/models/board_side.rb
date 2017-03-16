@@ -6,9 +6,9 @@ class BoardSide < ApplicationRecord
   has_one :ranged_row, ->{ ranged }, class_name: 'BoardRow', inverse_of: :board_side
   has_one :siege_row, ->{ siege }, class_name: 'BoardRow', inverse_of: :board_side
   after_create do
-    board_rows.melee.create!
-    board_rows.ranged.create!
-    board_rows.siege.create!
+    create_melee_row!
+    create_ranged_row!
+    create_siege_row!
   end
 
   has_many :card_plays
