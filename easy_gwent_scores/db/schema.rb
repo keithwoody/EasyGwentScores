@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20170308221030) do
     t.integer  "num_related"
     t.string   "card_type"
     t.string   "combat_row"
-    t.integer  "strength"
+    t.integer  "strength", default: 0
     t.string   "special_ability"
     t.string   "description"
     t.string   "source"

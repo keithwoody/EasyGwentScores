@@ -6,7 +6,7 @@ class CreateCards < ActiveRecord::Migration[5.0]
       t.integer :num_related
       t.string :card_type
       t.string :combat_row
-      t.integer :strength
+      t.integer :strength, default: 0
       t.string :special_ability
       t.string :description
       t.string :source
