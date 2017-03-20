@@ -11,6 +11,7 @@ class Card < ApplicationRecord
   scope :special, -> { where(card_type: 'Special') }
   scope :weather, -> { where(card_type: 'Weather') }
   scope :unit, -> { where(card_type: 'Unit') }
+  scope :non_leader, -> { where('card_type != ?', 'Leader') }
   # row scopes
   scope :global, -> { where(combat_row: 'n/a') }
   scope :melee, -> { where('combat_row LIKE ?', '%Close%') }
