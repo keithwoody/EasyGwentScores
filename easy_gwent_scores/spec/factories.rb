@@ -11,4 +11,8 @@ FactoryGirl.define do
   factory :board_side do
     round
   end
+  factory :board_row do
+    board_side
+    combat_type 'Melee'
+  end
 end
