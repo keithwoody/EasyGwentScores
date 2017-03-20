@@ -34,4 +34,8 @@ class BoardRow < ApplicationRecord
     cards.reload.map{ |c| [c.name, c.card_type, c.strength, c.row_score(self)] }
   end
 
+  def morale_boosts_for( card )
+    cards.morale.where('id != ?', card.id).count
+  end
+
 end

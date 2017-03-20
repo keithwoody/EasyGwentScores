@@ -77,8 +77,7 @@ class Card < ApplicationRecord
       # todo: Apply scoring rules
       #  Special ability:
       #    Morale => +1 to all units in row (except self)
-      morale_boosts = row.cards.morale.where('id != ?', self.id).count
-      val += morale_boosts
+      val += row.morale_boosts_for( self )
       #    Tight Bond => x2 related cards
       bond_count = row.cards.tight_bond.bound_to(self).count
       if bond_count > 0
