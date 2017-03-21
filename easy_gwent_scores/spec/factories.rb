@@ -10,6 +10,12 @@ FactoryGirl.define do
     end
     factory :unit do
       card_type 'Unit'
+      factory :morale do
+        special_ability 'Morale boost'
+      end
+      factory :tight_bond do
+        special_ability 'Tight Bond'
+      end
     end
   end
   factory :faction do
