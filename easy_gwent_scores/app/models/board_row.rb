@@ -19,14 +19,6 @@ class BoardRow < ApplicationRecord
     end
   end
 
-  def recalculate_score(card_play)
-    if card_play.card.commanders_horn?
-      self.commanders_horn_active = true
-    end
-    self.score = card_scores.sum
-    save!
-  end
-
   def card_scores
     cards.reload.map{ |c| c.row_score(self) }
   end

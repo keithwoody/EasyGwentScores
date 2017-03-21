@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  factory :card_play do
+    board_side
+  end
   factory :card do
     faction
     sequence(:name) {|n| "Card #{n}" }
