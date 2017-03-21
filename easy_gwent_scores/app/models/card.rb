@@ -74,25 +74,26 @@ class Card < ApplicationRecord
   def row_score(row)
     val = strength
     if unit?
-      #  Weather on? => reduce all units to 1
-      if row.weather_active?
-        val = 1 if val > 1
-      end
-      #  Special ability:
-      #    Morale => +1 to all units in row (except self)
+      # Weather on? => reduce unit strength to 1
+      val = 1 if row.weather_active? && val > 1
+
+      # Special ability:
+      #   Morale => +1 to all units in row (except self)
       val += row.morale_boosts_for( self )
-      #    Tight Bond => x2 related cards
+
+      # Special ability:
+      #   Tight Bond => x2 related cards
       bond_count = row.tight_bonds_for( self )
-      if bond_count > 0
-        val *= bond_count * 2
-      end
+      val *= bond_count * 2 if bond_count > 0
+
       # todo: Apply scoring rule
-      #    Berserker => x2 on transform, +1 to related units (Young Berserker)
+      # Special ability:
+      #   Berserker => x2 on transform, +1 to related units (Young Berserker)
+
       # Commanders horn? => x2 all units in row
-      if row.commanders_horn_active?
-        val *= 2
-      end
+      val *= 2 if row.commanders_horn_active?
     end
+
     val
   end
 end
