@@ -23,14 +23,7 @@ class Card < ApplicationRecord
   scope :bound_to, -> (c) { where('id != ?', c.id).where('name like ?', c.name.remove(/ \d\/\d/)+'%') }
   scope :spy, -> {where(special_ability: 'Spy')}
 
-  def commanders_horn?
-    if name+special_ability =~ /Horn/
-      true
-    else
-      false
-    end
-  end
-
+  # combat_row predicates
   def melee?
     combat_row.eql?('Close combat')
   end
@@ -43,6 +36,11 @@ class Card < ApplicationRecord
     combat_row.eql?('Siege')
   end
 
+  def whole_board?
+    weather? || (name =~ /^Scorch/) ? true : false
+  end
+
+  # card_type predicates
   def hero?
     card_type.eql?('Hero')
   end
@@ -59,8 +57,13 @@ class Card < ApplicationRecord
     card_type.eql?('Special')
   end
 
-  def whole_board?
-    true if name =~ /Clear|Scorch/
+  # ability predicates
+  def commanders_horn?
+    if name+special_ability =~ /Horn/
+      true
+    else
+      false
+    end
   end
 
   def spy?
@@ -71,6 +74,7 @@ class Card < ApplicationRecord
     special_ability.eql?('Tight Bond')
   end
 
+  # card play helpers
   def row_score(row)
     val = strength
     if unit?
