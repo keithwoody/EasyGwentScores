@@ -67,6 +67,10 @@ class Card < ApplicationRecord
     special_ability.eql?('Spy')
   end
 
+  def tight_bond?
+    special_ability.eql?('Tight Bond')
+  end
+
   def row_score(row)
     val = strength
     if unit?
@@ -79,7 +83,7 @@ class Card < ApplicationRecord
       #    Morale => +1 to all units in row (except self)
       val += row.morale_boosts_for( self )
       #    Tight Bond => x2 related cards
-      bond_count = row.cards.tight_bond.bound_to(self).count
+      bond_count = row.tight_bonds_for( self )
       if bond_count > 0
         val *= bond_count * 2
       end

@@ -38,4 +38,8 @@ class BoardRow < ApplicationRecord
     cards.morale.where('id != ?', card.id).count
   end
 
+  def tight_bonds_for( card )
+    return 0 unless card.tight_bond?
+    cards.tight_bond.bound_to( card ).count
+  end
 end
