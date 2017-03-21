@@ -3,10 +3,11 @@ class BoardRow < ApplicationRecord
   has_many :card_plays, dependent: :nullify, inverse_of: :board_row
   has_many :cards, through: :card_plays
 
+  COMBAT_TYPES = %w[Melee Ranged Siege].freeze
   validates :combat_type,
     presence: true,
     uniqueness: {scope: :board_side_id},
-    inclusion: {in: %w[Melee Ranged Siege]}
+    inclusion: {in: COMBAT_TYPES}
 
   scope :melee, ->{ where(combat_type: 'Melee') }
   scope :ranged, ->{ where(combat_type: 'Ranged') }
