@@ -78,7 +78,6 @@ class Card < ApplicationRecord
       if row.weather_active?
         val = 1 if val > 1
       end
-      # todo: Apply scoring rules
       #  Special ability:
       #    Morale => +1 to all units in row (except self)
       val += row.morale_boosts_for( self )
@@ -87,6 +86,7 @@ class Card < ApplicationRecord
       if bond_count > 0
         val *= bond_count * 2
       end
+      # todo: Apply scoring rule
       #    Berserker => x2 on transform, +1 to related units (Young Berserker)
       # Commanders horn? => x2 all units in row
       if row.commanders_horn_active?
