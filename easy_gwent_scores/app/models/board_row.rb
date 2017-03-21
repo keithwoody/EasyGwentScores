@@ -5,9 +5,8 @@ class BoardRow < ApplicationRecord
 
   COMBAT_TYPES = %w[Melee Ranged Siege].freeze
   validates :combat_type,
-    presence: true,
-    uniqueness: {scope: :board_side_id},
-    inclusion: {in: COMBAT_TYPES}
+    inclusion: {in: COMBAT_TYPES, message: "must be one of #{COMBAT_TYPES.to_sentence(last_word_connector: ' or ')}"},
+    uniqueness: {scope: :board_side_id}
 
   scope :melee, ->{ where(combat_type: 'Melee') }
   scope :ranged, ->{ where(combat_type: 'Ranged') }
