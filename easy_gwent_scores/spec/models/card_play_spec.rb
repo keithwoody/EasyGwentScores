@@ -44,24 +44,4 @@ RSpec.describe CardPlay, type: :model do
     end
   end
 
-  describe "#calculate_row_score" do
-    before do
-      side_one.ranged_row.card_plays.delete_all
-      side_one.card_plays.create(board_row: side_one.siege_row, card: create(:unit, strength: 6))
-      side_one.card_plays.create(board_row: side_one.siege_row, card: create(:hero, strength: 7))
-    end
-    let(:empty_row) { side_one.ranged_row }
-    it "returns 0 for a row with no cards" do
-      subject.board_row = empty_row
-      expect( subject.board_row.cards ).to be_empty
-      expect( subject.calculate_row_score ).to eq 0
-    end
-    let(:multi_card_row) { side_one.siege_row }
-    it "returns the sum of row_scores for cards played in the row" do
-      subject.board_row = multi_card_row
-      expect( subject.board_row.cards.count ).to eq 2
-      expect( subject.calculate_row_score ).to eq 13
-    end
-  end
-
 end

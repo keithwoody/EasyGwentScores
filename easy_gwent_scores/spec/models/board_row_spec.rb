@@ -18,6 +18,24 @@ RSpec.describe BoardRow, type: :model do
     end
   end
 
+  describe "#calculate_score" do
+    before do
+      side_one.ranged_row.card_plays.delete_all
+      side_one.card_plays.create(board_row: side_one.siege_row, card: create(:unit, strength: 6))
+      side_one.card_plays.create(board_row: side_one.siege_row, card: create(:hero, strength: 7))
+    end
+    let(:empty_row) { side_one.ranged_row }
+    it "returns 0 for a row with no cards" do
+      expect( empty_row.cards ).to be_empty
+      expect( empty_row.calculate_score ).to eq 0
+    end
+    let(:multi_card_row) { side_one.siege_row }
+    it "returns the sum of row_scores for cards played in the row" do
+      expect( multi_card_row.cards.count ).to eq 2
+      expect( multi_card_row.calculate_score ).to eq 13
+    end
+  end
+
   let(:regular_unit) { create(:unit) }
   describe "#morale_boosts_for( card )" do
     let(:morale1) { create(:morale) }

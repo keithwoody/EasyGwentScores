@@ -12,16 +12,12 @@ class CardPlay < ApplicationRecord
   #     - other cards in it's row (Morale, Tight Bond)
   #     - the whole board (Weather, Scorch)
   after_create do
-    if board_row && board_row.score != calculate_row_score
-      board_row.update(score: calculate_row_score)
+    if board_row
+      board_row.update(score: board_row.calculate_score)
     elsif card.whole_board?
       # update side scores
       apply_global_effects
     end
-  end
-
-  def calculate_row_score
-    @score ||= board_row.cards.reload.inject(0){|sum, c| sum += c.strength_in_row(board_row) }
   end
 
   protected

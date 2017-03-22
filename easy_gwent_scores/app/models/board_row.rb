@@ -18,6 +18,10 @@ class BoardRow < ApplicationRecord
     end
   end
 
+  def calculate_score
+    cards.reload.inject(0){|sum, c| sum += c.strength_in_row(self) }
+  end
+
   def morale_boosts_for( card )
     cards.morale.where('id != ?', card.id).count
   end
