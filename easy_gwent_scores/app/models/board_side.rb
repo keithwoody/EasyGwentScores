@@ -14,17 +14,7 @@ class BoardSide < ApplicationRecord
   has_many :card_plays
   has_many :global_card_plays, ->{ where(board_row_id: nil) },
     class_name: 'CardPlay',
-    after_add: :apply_global_effects,
     dependent: :delete_all
-
-  def apply_global_effects(card_play)
-    if card_play.card.weather?
-      round.side_one.apply_row_weather( card_play.card )
-      round.side_two.apply_row_weather( card_play.card )
-    elsif card_play.card.scorch?
-      raise "TODO: discard from each side card(s) with highest row_score"
-    end
-  end
 
   def apply_row_weather( card )
     name = card.name
