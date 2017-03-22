@@ -8,6 +8,7 @@ class CardPlay < ApplicationRecord
   # when a Card is played by a BoardSide it can:
   #   * affect the score of:
   #     - the row it's played in (Unit, Hero, Decoy, Horn)
+  #     - other cards in it's row (Morale, Tight Bond)
   after_create do
     if board_row && board_row.score != calculate_row_score
       board_row.update(score: calculate_row_score)
@@ -17,7 +18,7 @@ class CardPlay < ApplicationRecord
   end
 
   def calculate_row_score
-    @score ||= board_row.cards.reload.inject(0){|sum, c| sum += c.row_score(board_row) }
+    @score ||= board_row.cards.reload.inject(0){|sum, c| sum += c.strength_in_row(board_row) }
   end
 
   protected

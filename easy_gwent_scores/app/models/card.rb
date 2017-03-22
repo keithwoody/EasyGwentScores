@@ -75,7 +75,7 @@ class Card < ApplicationRecord
   end
 
   # card play helpers
-  def row_score(row)
+  def strength_in_row(row)
     val = strength
     if unit?
       # Weather on? => reduce unit strength to 1
