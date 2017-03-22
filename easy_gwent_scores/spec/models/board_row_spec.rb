@@ -15,6 +15,10 @@ RSpec.describe BoardRow, type: :model do
         allow(subject).to receive(:calculate_score).and_return(5)
         expect{ subject.update(weather_active: true) }.to change{ subject.score }.from(0).to(5)
       end
+      it "recalculates the score when the commander's horn status changes" do
+        allow(subject).to receive(:calculate_score).and_return(15)
+        expect{ subject.update(commanders_horn_active: true) }.to change{ subject.score }.from(0).to(15)
+      end
     end
     describe "after_update" do
       it "updates the score for the associated BoardSide when the row score changes" do

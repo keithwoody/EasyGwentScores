@@ -13,7 +13,7 @@ class BoardRow < ApplicationRecord
   scope :siege, ->{ where(combat_type: 'Siege') }
 
   before_save do
-    if weather_active_changed?
+    if weather_active_changed? || commanders_horn_active_changed?
       self.score = calculate_score
     end
   end
