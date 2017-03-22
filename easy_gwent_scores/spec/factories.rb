@@ -17,6 +17,24 @@ FactoryGirl.define do
         special_ability 'Tight Bond'
       end
     end
+    factory :weather do
+      card_type 'Weather'
+      factory :frost do
+        name "Biting Frost"
+      end
+      factory :fog do
+        name "Impenetrable Fog"
+      end
+      factory :rain do
+        name "Torrential Rain"
+      end
+      factory :storm do
+        name "Skellige Storm"
+      end
+      factory :clear_weather do
+        name "Clear Weather"
+      end
+    end
   end
   factory :faction do
     sequence(:name) {|n| "Faction #{n}" }
