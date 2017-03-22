@@ -12,6 +12,12 @@ class BoardRow < ApplicationRecord
   scope :ranged, ->{ where(combat_type: 'Ranged') }
   scope :siege, ->{ where(combat_type: 'Siege') }
 
+  before_save do
+    if weather_active_changed?
+      self.score = calculate_score
+    end
+  end
+
   after_update do
     if score_changed?
       board_side.update_score

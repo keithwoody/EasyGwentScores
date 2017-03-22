@@ -10,6 +10,12 @@ RSpec.describe BoardRow, type: :model do
   let(:side_one) { create(:board_side) }
   describe "Callbacks" do
     subject { side_one.melee_row }
+    describe "before_save" do
+      it "recalculates the score when the weather status changes" do
+        allow(subject).to receive(:calculate_score).and_return(5)
+        expect{ subject.update(weather_active: true) }.to change{ subject.score }.from(0).to(5)
+      end
+    end
     describe "after_update" do
       it "updates the score for the associated BoardSide when the row score changes" do
         expect( subject.score ).to eq 0
