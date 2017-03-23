@@ -24,6 +24,10 @@ class Card < ApplicationRecord
   scope :spy, -> {where(special_ability: 'Spy')}
 
   # combat_row predicates
+  def agile?
+    combat_row =~ /and|or/ ? true : false
+  end
+
   def melee?
     combat_row.eql?('Close combat')
   end
@@ -43,6 +47,10 @@ class Card < ApplicationRecord
   # card_type predicates
   def hero?
     card_type.eql?('Hero')
+  end
+
+  def leader?
+    card_type.eql?('Leader')
   end
 
   def unit?

@@ -70,7 +70,9 @@ class BoardSide < ApplicationRecord
       card_plays.create(card: card)
     else
       # Unit/Hero
-      row = row_for( card )
+      # auto-select row unless one was passed in
+      raise "Choose a row to play #{card.name}" if card.agile? && row.nil?
+      row ||= row_for( card )
       card_plays.create(card: card, board_row: row)
     end
 
