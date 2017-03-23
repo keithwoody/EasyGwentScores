@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308221030) do
+ActiveRecord::Schema.define(version: 20170323220137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,13 +51,22 @@ ActiveRecord::Schema.define(version: 20170308221030) do
     t.integer  "num_related"
     t.string   "card_type"
     t.string   "combat_row"
-    t.integer  "strength", default: 0
+    t.integer  "strength",        default: 0
     t.string   "special_ability"
     t.string   "description"
     t.string   "source"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.index ["faction_id"], name: "index_cards_on_faction_id", using: :btree
+  end
+
+  create_table "discards", force: :cascade do |t|
+    t.integer  "board_side_id"
+    t.integer  "card_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["board_side_id"], name: "index_discards_on_board_side_id", using: :btree
+    t.index ["card_id"], name: "index_discards_on_card_id", using: :btree
   end
 
   create_table "factions", force: :cascade do |t|
@@ -79,4 +88,6 @@ ActiveRecord::Schema.define(version: 20170308221030) do
   add_foreign_key "card_plays", "board_sides"
   add_foreign_key "card_plays", "cards"
   add_foreign_key "cards", "factions"
+  add_foreign_key "discards", "board_sides"
+  add_foreign_key "discards", "cards"
 end
