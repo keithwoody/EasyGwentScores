@@ -12,6 +12,7 @@ class BoardSide < ApplicationRecord
   end
 
   has_many :card_plays
+  has_many :unit_cards, -> { unit }, through: :card_plays, source: :card
   has_many :global_card_plays, ->{ where(board_row_id: nil) },
     class_name: 'CardPlay',
     dependent: :delete_all
@@ -53,7 +54,7 @@ class BoardSide < ApplicationRecord
     if card.special?
       if card.whole_board?
         # affects both sides: clear weather, scorch
-        global_card_plays.create(card: card)
+        card_plays.create(card: card)
       else
         if card.commanders_horn?
           # specify row: horn
@@ -67,7 +68,7 @@ class BoardSide < ApplicationRecord
         end
       end
     elsif card.weather?
-      global_card_plays.create(card: card)
+      card_plays.create(card: card)
     elsif card.leader?
       card_plays.create(card: card)
     else

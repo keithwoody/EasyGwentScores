@@ -74,6 +74,10 @@ class Card < ApplicationRecord
     end
   end
 
+  def scorch?
+    special_ability.eql?('Scorch')
+  end
+
   def spy?
     special_ability.eql?('Spy')
   end

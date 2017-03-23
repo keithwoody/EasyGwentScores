@@ -15,6 +15,9 @@ FactoryGirl.define do
     end
     factory :unit do
       card_type 'Unit'
+      factory :melee_unit do
+        combat_row 'Close combat'
+      end
       factory :morale do
         special_ability 'Morale boost'
       end
@@ -45,6 +48,10 @@ FactoryGirl.define do
       factory :commanders_horn do
         sequence(:name) {|n| "Commander's Horn #{n}" }
         special_ability "Horn on any row"
+      end
+      factory :scorch do
+        sequence(:name) {|n| "Scorch #{n}" }
+        special_ability "Scorch"
       end
     end
   end

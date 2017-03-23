@@ -83,6 +83,32 @@ RSpec.describe CardPlay, type: :model do
           siege_row.commanders_horn_active?
         }.from(false).to(true)
       end
+
+      context "when a Scorch is played" do
+        let(:round) { create(:round) }
+        let(:player_side) { round.side_one }
+        let(:opponent_side) { round.side_two }
+        let(:scorch) { create(:scorch) }
+        before do
+          player_side.play(create(:melee_unit, strength: 10))
+          player_side.play(create(:melee_unit, strength: 5))
+          opponent_side.play(create(:melee_unit, strength: 10))
+          opponent_side.play(create(:melee_unit, strength: 5))
+        end
+
+        it "discards the strongest units from both sides" do
+          expect { player_side.card_plays.create(card: scorch) }.to change{
+            Discard.combat.count
+          }.from(0).to(2)
+          expect( Discard.combat.pluck('cards.strength') ).to eq [10, 10]
+        end
+        it "discards the scorch after play" do
+          expect { player_side.card_plays.create(card: scorch) }.to change{
+            player_side.discards.count
+          }.from(0).to(2)
+          expect( player_side.discards.last.card ).to eq scorch
+        end
+      end
     end
   end
 

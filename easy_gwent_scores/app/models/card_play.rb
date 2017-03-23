@@ -1,5 +1,6 @@
 class CardPlay < ApplicationRecord
   belongs_to :board_side, inverse_of: :card_plays
+  has_one :round, through: :board_side
   delegate :other_side, to: :board_side
   belongs_to :board_row, required: false
   belongs_to :card
@@ -30,7 +31,13 @@ class CardPlay < ApplicationRecord
       board_side.apply_row_weather( card )
       other_side.apply_row_weather( card )
     elsif card.scorch?
-      raise "TODO: discard from each side card(s) with highest row_score"
+      scorch_level = round.unit_cards.maximum(:strength)
+      round.board_sides.each do |side|
+        side.unit_cards.where(strength: scorch_level).pluck(:id).each do |cid|
+          side.discards.create(card_id: cid)
+        end
+      end
+      board_side.discards.create(card: card)
     end
   end
 
