@@ -76,6 +76,12 @@ RSpec.describe CardPlay, type: :model do
         expect{ create_play( horn, melee_row) }.to change {
           melee_row.commanders_horn_active?
         }.from(false).to(true)
+        expect{ create_play( horn, ranged_row) }.to change {
+          ranged_row.commanders_horn_active?
+        }.from(false).to(true)
+        expect{ create_play( horn, siege_row) }.to change {
+          siege_row.commanders_horn_active?
+        }.from(false).to(true)
       end
     end
   end
