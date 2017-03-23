@@ -16,6 +16,7 @@ RSpec.describe CardPlay, type: :model do
   let(:rain) { create(:rain) }
   let(:storm) { create(:storm) }
   let(:clear) { create(:clear_weather) }
+  let(:horn) { create(:commanders_horn) }
   def create_play( card, row )
     side_one.card_plays.create(board_row: row, card: card)
   end
@@ -69,6 +70,12 @@ RSpec.describe CardPlay, type: :model do
           ranged_row.reload.weather_active? &&
           siege_row.reload.weather_active?
         }.from(true).to(false)
+      end
+
+      it "activates commander's horn doubling on the row where it was played" do
+        expect{ create_play( horn, melee_row) }.to change {
+          melee_row.commanders_horn_active?
+        }.from(false).to(true)
       end
     end
   end

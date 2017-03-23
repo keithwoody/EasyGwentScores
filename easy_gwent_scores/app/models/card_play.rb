@@ -13,6 +13,9 @@ class CardPlay < ApplicationRecord
   #     - the whole board (Weather, Scorch)
   after_create do
     if board_row
+      if card.commanders_horn?
+        board_row.commanders_horn_active = true
+      end
       board_row.update(score: board_row.calculate_score)
     elsif card.whole_board?
       # update side scores

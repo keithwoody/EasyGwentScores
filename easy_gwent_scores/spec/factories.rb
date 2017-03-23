@@ -5,6 +5,7 @@ FactoryGirl.define do
   factory :card do
     faction
     sequence(:name) {|n| "Card #{n}" }
+    special_ability 'None'
     factory :hero do
       card_type 'Hero'
     end
@@ -33,6 +34,13 @@ FactoryGirl.define do
       end
       factory :clear_weather do
         name "Clear Weather"
+      end
+    end
+    factory :special do
+      card_type 'Special'
+      factory :commanders_horn do
+        sequence(:name) {|n| "Commander's Horn #{n}" }
+        special_ability "Horn on any row"
       end
     end
   end
