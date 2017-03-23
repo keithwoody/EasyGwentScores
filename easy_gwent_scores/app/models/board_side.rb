@@ -16,6 +16,8 @@ class BoardSide < ApplicationRecord
     class_name: 'CardPlay',
     dependent: :delete_all
 
+  has_many :discards, inverse_of: :board_side
+
   def apply_row_weather( card )
     name = card.name
     if name =~ /Frost/

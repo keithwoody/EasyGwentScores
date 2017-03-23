@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :discard do
+    board_side nil
+    card nil
+  end
   factory :card_play do
     board_side
   end
