@@ -22,6 +22,7 @@ class Card < ApplicationRecord
   scope :tight_bond, -> { where(special_ability: 'Tight Bond') }
   scope :bound_to, -> (c) { where('id != ?', c.id).where('name like ?', c.name.remove(/ \d\/\d/)+'%') }
   scope :spy, -> {where(special_ability: 'Spy')}
+  scope :scorch, -> {where('special_ability like ?', '%Scorch%')}
 
   # combat_row predicates
   def agile?
