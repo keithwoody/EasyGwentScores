@@ -12,7 +12,7 @@ class BoardSide < ApplicationRecord
   end
 
   has_many :card_plays
-  has_many :unit_cards, -> { unit }, through: :card_plays, source: :card
+  has_many :unit_cards, -> (side) { unit.where.not(id: side.discarded_card_ids) }, through: :card_plays, source: :card
   has_many :global_card_plays, ->{ where(board_row_id: nil) },
     class_name: 'CardPlay',
     dependent: :delete_all
