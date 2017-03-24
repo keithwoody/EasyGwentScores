@@ -108,6 +108,12 @@ RSpec.describe CardPlay, type: :model do
           }.from(0).to(2)
           expect( player_side.discards.last.card ).to eq scorch
         end
+        it "updates the row score for affected rows" do
+          expect { player_side.card_plays.create(card: scorch) }.to change{
+            [player_side.melee_row.reload.score,
+             opponent_side.melee_row.reload.score ]
+          }.from([15,15]).to([5,5])
+        end
       end
     end
   end

@@ -33,8 +33,13 @@ class CardPlay < ApplicationRecord
     elsif card.scorch?
       scorch_level = round.unit_cards.maximum(:strength)
       round.board_sides.each do |side|
+        # discard all units with max strength
         side.unit_cards.where(strength: scorch_level).pluck(:id).each do |cid|
           side.discards.create(card_id: cid)
+        end
+        # update row scores
+        side.board_rows.each do |row|
+          row.update(score: row.calculate_score)
         end
       end
       board_side.discards.create(card: card)

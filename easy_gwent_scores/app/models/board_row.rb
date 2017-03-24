@@ -1,7 +1,7 @@
 class BoardRow < ApplicationRecord
   belongs_to :board_side, inverse_of: :board_rows
   has_many :card_plays, dependent: :nullify, inverse_of: :board_row
-  has_many :cards, through: :card_plays
+  has_many :cards, -> (row){ where.not(id: row.board_side.discarded_card_ids) }, through: :card_plays
 
   COMBAT_TYPES = %w[Melee Ranged Siege].freeze
   validates :combat_type,

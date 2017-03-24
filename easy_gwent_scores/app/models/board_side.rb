@@ -18,6 +18,7 @@ class BoardSide < ApplicationRecord
     dependent: :delete_all
 
   has_many :discards, inverse_of: :board_side
+  has_many :discarded_cards, ->{order('discards.created_at')}, through: :discards, source: :card
 
   def apply_row_weather( card )
     name = card.name
