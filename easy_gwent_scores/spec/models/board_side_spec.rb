@@ -56,5 +56,36 @@ RSpec.describe BoardSide, type: :model do
       expect{ subject.play(hero10, row: ranged_row) }.to change{ ranged_row.cards.count }.by(1)
     end
 
+    it "adjusts the score each time a card is played" do
+      expect{ subject.play( create(:melee_unit) ) }.to change {
+        subject.score
+      }.from(0).to(1)
+      expect{ subject.play( create(:ranged_unit) ) }.to change {
+        subject.score
+      }.from(1).to(3)
+      expect{ subject.play( create(:siege_unit) ) }.to change {
+        subject.score
+      }.from(3).to(6)
+      expect( subject.board_rows.pluck(:score) ).to eq [1,2,3]
+      expect{ subject.play( create(:commanders_horn), row: melee_row ) }.to change {
+        subject.score
+      }.from(6).to(7)
+      # melee units now doubled
+      expect{ subject.play( create(:melee_unit) ) }.to change {
+        subject.score
+      }.from(7).to(9)
+      expect( subject.board_rows.pluck(:score) ).to eq [4,2,3]
+      expect{ subject.play( create(:melee_morale) ) }.to change {
+        subject.score
+      }.from(9).to(15)
+      expect( subject.board_rows.pluck(:score) ).to eq [10,2,3]
+      expect{ subject.play( create(:ranged_bond) ) }.to change {
+        subject.score
+      }.from(15).to(17)
+      expect{ subject.play( create(:ranged_bond) ) }.to change {
+        subject.score
+      }.from(17).to(23)
+      # puts ranged_row.cards.map{|c| [c.name, c.strength_in_row(ranged_row) ] }.inspect
+    end
   end
 end

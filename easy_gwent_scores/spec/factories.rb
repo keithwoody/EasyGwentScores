@@ -17,9 +17,26 @@ FactoryGirl.define do
       card_type 'Unit'
       factory :melee_unit do
         combat_row 'Close combat'
+        strength 1
+      end
+      factory :ranged_unit do
+        combat_row 'Ranged combat'
+        strength 2
+        factory :ranged_bond do
+          sequence(:name) {|n| "Ranged Bond #{n}/3"}
+          special_ability 'Tight Bond'
+        end
+      end
+      factory :siege_unit do
+        combat_row 'Siege'
+        strength 3
       end
       factory :morale do
         special_ability 'Morale boost'
+        factory :melee_morale do
+          combat_row 'Close combat'
+          strength 1
+        end
       end
       factory :tight_bond do
         special_ability 'Tight Bond'
